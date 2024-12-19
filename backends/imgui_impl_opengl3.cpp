@@ -137,6 +137,7 @@
 #pragma GCC diagnostic ignored "-Wpragmas"                  // warning: unknown option after '#pragma GCC diagnostic' kind
 #pragma GCC diagnostic ignored "-Wunknown-warning-option"   // warning: unknown warning group 'xxx'
 #pragma GCC diagnostic ignored "-Wcast-function-type"       // warning: cast between incompatible function types (for loader)
+#pragma GCC diagnostic ignored "-Wstrict-overflow"          // warning: assuming signed overflow does not occur when simplifying division / ..when changing X +- C1 cmp C2 to X cmp C2 -+ C1
 #endif
 
 // GL includes
@@ -297,15 +298,13 @@ bool    ImGui_ImplOpenGL3_Init(const char* glsl_version)
     io.BackendRendererName = "imgui_impl_opengl3";
 
     // Query for GL version (e.g. 320 for GL 3.2)
+    const char* gl_version_str = (const char*)glGetString(GL_VERSION);
 #if defined(IMGUI_IMPL_OPENGL_ES2)
     // GLES 2
-    const char* gl_version_str = "";
-    IM_UNUSED(gl_version_str); // For IMGUI_IMPL_OPENGL_DEBUG block below.
     bd->GlVersion = 200;
     bd->GlProfileIsES2 = true;
 #else
     // Desktop or GLES 3
-    const char* gl_version_str = (const char*)glGetString(GL_VERSION);
     GLint major = 0;
     GLint minor = 0;
     glGetIntegerv(GL_MAJOR_VERSION, &major);
