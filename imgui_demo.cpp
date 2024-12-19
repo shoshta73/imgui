@@ -1,4 +1,4 @@
-// dear imgui, v1.91.6 WIP
+// dear imgui, v1.91.7 WIP
 // (demo code)
 
 // Help:
@@ -1890,6 +1890,16 @@ static void ShowDemoWindowWidgets(ImGuiDemoWindowData* demo_data)
             ImGui::TreePop();
         }
 
+        IMGUI_DEMO_MARKER("Widgets/Text Input/Eliding, Alignment");
+        if (ImGui::TreeNode("Eliding, Alignment"))
+        {
+            static char buf1[128] = "/path/to/some/folder/with/long/filename.cpp";
+            static ImGuiInputTextFlags flags = ImGuiInputTextFlags_ElideLeft;
+            ImGui::CheckboxFlags("ImGuiInputTextFlags_ElideLeft", &flags, ImGuiInputTextFlags_ElideLeft);
+            ImGui::InputText("Path", buf1, IM_ARRAYSIZE(buf1), flags);
+            ImGui::TreePop();
+        }
+
         IMGUI_DEMO_MARKER("Widgets/Text Input/Miscellaneous");
         if (ImGui::TreeNode("Miscellaneous"))
         {
@@ -2360,6 +2370,8 @@ static void ShowDemoWindowWidgets(ImGuiDemoWindowData* demo_data)
         ImGui::SameLine(); HelpMarker("Disable rounding underlying value to match precision of the format string (e.g. %.3f values are rounded to those 3 digits).");
         ImGui::CheckboxFlags("ImGuiSliderFlags_NoInput", &flags, ImGuiSliderFlags_NoInput);
         ImGui::SameLine(); HelpMarker("Disable CTRL+Click or Enter key allowing to input text directly into the widget.");
+        ImGui::CheckboxFlags("ImGuiSliderFlags_NoSpeedTweaks", &flags, ImGuiSliderFlags_NoSpeedTweaks);
+        ImGui::SameLine(); HelpMarker("Disable keyboard modifiers altering tweak speed. Useful if you want to alter tweak speed yourself based on your own logic.");
         ImGui::CheckboxFlags("ImGuiSliderFlags_WrapAround", &flags, ImGuiSliderFlags_WrapAround);
         ImGui::SameLine(); HelpMarker("Enable wrapping around from max to min and from min to max (only supported by DragXXX() functions)");
 
@@ -10685,6 +10697,8 @@ void ImGui::ShowAboutWindow(bool*) {}
 void ImGui::ShowDemoWindow(bool*) {}
 void ImGui::ShowUserGuide() {}
 void ImGui::ShowStyleEditor(ImGuiStyle*) {}
+bool ImGui::ShowStyleSelector(const char* label) { return false; }
+void ImGui::ShowFontSelector(const char* label) {}
 
 #endif
 
